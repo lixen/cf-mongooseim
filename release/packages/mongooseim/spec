@@ -1,0 +1,6 @@
+---
+name: mongooseim
+dependencies: []
+files:
+- apt/mongooseim/profile.sh
+- apt/mongooseim/*.deb

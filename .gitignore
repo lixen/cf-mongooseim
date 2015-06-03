@@ -1,3 +1,5 @@
+Vagrantfile
+.vagrant/
 .bundle/
 vendor/
 release/blobs
