@@ -1,0 +1,6 @@
+[submodule "release/src/github.com/cloudfoundry-incubator/route-registrar"]
+	path = release/src/github.com/cloudfoundry-incubator/route-registrar
+	url = git@github.com:cloudfoundry-incubator/route-registrar.git
+[submodule "release/src/route-registrar/src/github.com/cloudfoundry-incubator/route-registrar"]
+	path = release/src/route-registrar/src/github.com/cloudfoundry-incubator/route-registrar
+	url = git@github.com:cloudfoundry-incubator/route-registrar.git

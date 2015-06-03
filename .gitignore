@@ -1,0 +1,13 @@
+.bundle/
+vendor/
+release/blobs
+release/config/dev.yml
+release/config/private.yml
+release/.dev_builds
+release/.final_builds/jobs/**/*.tgz
+release/.final_builds/packages/**/*.tgz
+release/dev_releases
+release/.blobs/
+test_results/
+**/*.beam
+release/releases/**/*.tgz
