@@ -1,0 +1,74 @@
+---
+director_uuid: <%= `bosh status --uuid ` %>
+name: cf-mongooseim
+
+releases:
+- name: cf-mongooseim
+  version: latest
+
+jobs:
+- name: mongooseim-server
+  release: cf-mongooseim
+  template: mongooseim-server
+  instances: 1
+  resource_pool: services-small
+  persistent_disk: 2048
+  networks:
+  - name: services1
+    static_ips:
+    - 10.244.3.46
+
+networks:
+- name: services1
+  subnets:
+  - cloud_properties:
+      name: random
+    range: 10.244.3.0/24
+    static:
+    - 10.244.3.46
+  - cloud_properties:
+      name: random
+    range: 10.244.11.0/24
+
+
+resource_pools:
+- cloud_properties:
+    name: random
+  name: services-small
+  network: services1
+  size: 1
+  stemcell:
+    name: bosh-warden-boshlite-ubuntu-trusty-go_agent
+    version: latest
+
+meta:
+  stemcell:
+    name: bosh-warden-boshlite-ubuntu-trusty-go_agent
+    version: latest
+
+update:
+  canaries: 1
+  canary_watch_time: 30000-180000
+  update_watch_time: 30000-180000
+  max_in_flight: 4
+
+compilation:
+  cloud_properties:
+    name: random
+  network: services1
+  reuse_compilation_vms: true
+  workers: 1
+
+properties:
+  cf:
+    admin_password: "admin"
+    admin_username: "admin"
+    api_url: "http://api.10.244.0.34.xip.io"
+    domain: "10.244.0.34.xip.io"
+    nats:
+      host: "10.244.0.6"
+      port: "4222"
+      username: "nats"
+      password: "nats"
+  route-registrar:
+    target_ip: "10.244.3.46"
