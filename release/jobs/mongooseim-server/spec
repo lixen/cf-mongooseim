@@ -1,0 +1,26 @@
+---
+name: mongooseim-server
+templates:
+  mongooseim-server.init.erb: bin/mongooseim-server.init
+  route_registrar_ctl.erb: bin/route_registrar_ctl
+  registrar_settings.yml.erb: config/registrar_settings.yml
+
+packages:
+- erlang
+- mongooseim
+- golang
+- route-registrar
+
+properties:
+  cf.domain:
+    description: "Domain shared by the UAA and CF API, e.g. '10.244.0.34.xip.io'"
+  cf.nats.host:
+    description: "Hostname/IP of NATS"
+  cf.nats.port:
+    description: "Port that NATS listens on"
+  cf.nats.username:
+    description: "The user to use when authenticating with NATS"
+  cf.nats.password:
+    description: "The password to use when authenticating with NATS"
+  route-registrar.target_ip:
+    description: "IP address mongooseim UI requests will be routed to, typically that of mongooseim VM"

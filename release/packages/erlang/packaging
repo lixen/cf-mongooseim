@@ -1,0 +1,12 @@
+# abort script on any command that exits with a non zero value
+set -e
+
+export HOME=${BOSH_INSTALL_DIR}
+
+VERSION="17.5"
+
+tar xzf erlang/otp_src_${VERSION}.tar.gz
+cd otp_src_${VERSION}
+./configure --prefix=${BOSH_INSTALL_TARGET}
+make
+make install

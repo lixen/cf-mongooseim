@@ -1,0 +1,45 @@
+#!/bin/bash
+
+BIN_DIR=/var/vcap/packages/mongooseim/mongooseim/bin
+RUN_DIR=/var/vcap/sys/run/mongooseim
+LOG_DIR=/var/vcap/sys/log/mongooseim
+PIDFILE=${RUN_DIR}/mongooseim.pid
+JOB_DIR=/var/vcap/jobs/mongooseim-server
+CONFIG_PATH=$JOB_DIR/config/mongooseim.conf
+DATA_DIR=/var/vcap/store/mongooseim
+
+# mongooseim hard codes these. Workaround for now.
+mongooseim_LOG_DIR=/var/vcap/packages/mongooseim/rel/mongooseim/mongooseim/log
+
+export PATH=/var/vcap/packages/erlang/bin:$PATH
+export HOME=/root
+
+case $1 in
+
+  start)
+    mkdir -p $RUN_DIR $LOG_DIR $DATA_DIR $mongooseim_LOG_DIR
+    chown -R vcap:vcap $RUN_DIR $LOG_DIR $BIN_DIR $DATA_DIR $mongooseim_LOG_DIR
+
+    $BIN_DIR/mongooseim start -config /var/vcap/packages/mongooseim/files/user.config \
+      >>  $LOG_DIR/mongooseim.stdout.log \
+      2>> $LOG_DIR/mongooseim.stderr.log
+        sleep 3
+
+    $BIN_DIR/mongooseim getpid > $PIDFILE
+
+    ;;
+
+  stop)
+
+    $BIN_DIR/mongooseim stop \
+      >>  $LOG_DIR/mongooseim.stdout.log \
+      2>> $LOG_DIR/mongooseim.stderr.log
+
+    rm -f $PIDFILE
+
+    ;;
+
+  *)
+    echo "Usage: ctl {start|stop}" ;;
+
+esac

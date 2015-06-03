@@ -1,0 +1,11 @@
+#check process mongooseim-server
+#  with pidfile "/var/vcap/sys/run/mongooseim/mongooseim.pid"
+#  start program "/var/vcap/jobs/mongooseim-server/bin/mongooseim-server.init start"
+#  stop program "/var/vcap/jobs/mongooseim-server/bin/mongooseim-server.init stop"
+#  group vcap
+
+check process route-registrar
+  with pidfile  "/var/vcap/sys/run/route-registrar/route-registrar.pid"
+  start program "/var/vcap/jobs/mongooseim-server/bin/route_registrar_ctl start" with timeout 10 seconds
+  stop  program "/var/vcap/jobs/mongooseim-server/bin/route_registrar_ctl stop"  with timeout 10 seconds
+  group vcap
